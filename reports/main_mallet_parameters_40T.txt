@@ -1,0 +1,90 @@
+Main Model Parameters for 40 Topics 
+
+Mallet model t40a5o0 Parameters: 
+Model 1/8 generated 
+File Path: models/main_mallet_t40a5o0 
+c_v Coherence: 0.5824016351706993 
+mallet_path: C:\mallet\bin\mallet 
+workers: 5 
+random_seed: 524251838 
+alpha: 5 
+iterations: 1000 
+optimize_interval: 0 
+
+Mallet model t40a5o200 Parameters: 
+Model 2/8 generated 
+File Path: models/main_mallet_t40a5o200 
+c_v Coherence: 0.5839318191445234 
+mallet_path: C:\mallet\bin\mallet 
+workers: 5 
+random_seed: 524251838 
+alpha: 5 
+iterations: 1000 
+optimize_interval: 200 
+
+Mallet model t40a10o0 Parameters: 
+Model 3/8 generated 
+File Path: models/main_mallet_t40a10o0 
+c_v Coherence: 0.5760861621117275 
+mallet_path: C:\mallet\bin\mallet 
+workers: 5 
+random_seed: 524251838 
+alpha: 10 
+iterations: 1000 
+optimize_interval: 0 
+
+Mallet model t40a10o200 Parameters: 
+Model 4/8 generated 
+File Path: models/main_mallet_t40a10o200 
+c_v Coherence: 0.5850966001403328 
+mallet_path: C:\mallet\bin\mallet 
+workers: 5 
+random_seed: 524251838 
+alpha: 10 
+iterations: 1000 
+optimize_interval: 200 
+
+Mallet model t40a25o0 Parameters: 
+Model 5/8 generated 
+File Path: models/main_mallet_t40a25o0 
+c_v Coherence: 0.5717931095912677 
+mallet_path: C:\mallet\bin\mallet 
+workers: 5 
+random_seed: 524251838 
+alpha: 25 
+iterations: 1000 
+optimize_interval: 0 
+
+Mallet model t40a25o200 Parameters: 
+Model 6/8 generated 
+File Path: models/main_mallet_t40a25o200 
+c_v Coherence: 0.5715507423857841 
+mallet_path: C:\mallet\bin\mallet 
+workers: 5 
+random_seed: 524251838 
+alpha: 25 
+iterations: 1000 
+optimize_interval: 200 
+
+Mallet model t40a50o0 Parameters: 
+Model 7/8 generated 
+File Path: models/main_mallet_t40a50o0 
+c_v Coherence: 0.5608745881100454 
+mallet_path: C:\mallet\bin\mallet 
+workers: 5 
+random_seed: 524251838 
+alpha: 50 
+iterations: 1000 
+optimize_interval: 0 
+
+Mallet model t40a50o200 Parameters: 
+Model 8/8 generated 
+File Path: models/main_mallet_t40a50o200 
+c_v Coherence: 0.5649255563380287 
+mallet_path: C:\mallet\bin\mallet 
+workers: 5 
+random_seed: 524251838 
+alpha: 50 
+iterations: 1000 
+optimize_interval: 200 
+

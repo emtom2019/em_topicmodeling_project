@@ -8,7 +8,7 @@ print(array1)
 #%%
 msg = "Hello World"
 print(msg)
-msgt = msg[0:5]
+msgt = msg[0:5]+" Planet!"
 print(msgt)
 
 #%%
