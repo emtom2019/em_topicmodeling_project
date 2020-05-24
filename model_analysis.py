@@ -322,7 +322,7 @@ if __name__ == "__main__": # Code only runs if this file is run directly.
         comp_time =  (time() - t)                                       
         print("Done in %0.3fs." % comp_time)
 
-    if True: # Loading alternate models
+    if False: # Loading alternate models
         with open('models/main_mallet_t40a5o200_v3', 'rb') as model:
             mallet_model_2 = pickle.load(model)
         with open('models/main_mallet_t40a25o200_v3', 'rb') as model:
@@ -482,7 +482,7 @@ if __name__ == "__main__": # Code only runs if this file is run directly.
         print("Coherence for unoptimized: C_V:{}, C_V_w10:{}, C_UCI:{}, C_NPMI:{}, UMASS:{}".format(*coh_list[1]))
         print("Coherence for a50: C_V:{}, C_V_w10:{}, C_UCI:{}, C_NPMI:{}, UMASS:{}".format(*coh_list[2]))
         print("Coherence for gensim: C_V:{}, C_V_w10:{}, C_UCI:{}, C_NPMI:{}, UMASS:{}".format(*coh_list[3]))
-    if True:
+    if False:
         dataframes = mfp.reload_dfs('reports/main_a5/data/', 5)
 
         path = 'reports/main_a5/journals/journal_stats.csv'
@@ -506,3 +506,74 @@ if __name__ == "__main__": # Code only runs if this file is run directly.
             topics.to_latex('reports/main_a5/topics_summary.tex', index=False)
             journals.to_latex('reports/main_a5/journal_stats.tex', index=False)
             groups_t.to_latex('reports/main_a5/groups_summary.tex', index=False)
+
+
+    if False:
+        with open('models/main_mallet_t40a5o200_v3', 'rb') as model:
+            model = pickle.load(model)
+        df1, df2 = mu.build_cooc_matrix_df(model.model, model.nlp_data)
+        df1.to_csv('reports/main_a5/sample_hm_w.csv', index=True)
+        mu.plot_heatmap(df1, fig_save_path='reports/main_a5/sample_hm_w.png')
+        mu.plot_heatmap(df2, fig_save_path='reports/main_a5/sample_hm_n.png')
+        mu.plot_clusterheatmap(df1, fig_save_path='reports/main_a5/sample_cluster_hm_w.png')
+
+    if False: # Testing the best way to implement the seaborn cluster heat map
+        import scipy.spatial.distance as ssd
+        import scipy.cluster.hierarchy as hc
+
+        topic_names = mu.import_topic_names('reports/main_a5/topic_names_trunc.csv')
+    
+        df1 = pd.read_csv('reports/main_a5/sample_hm_w.csv', index_col=0)
+        df2 = df1.values.max() - df1
+        np.fill_diagonal(df2.values, 0)
+        df3 = hc.linkage(ssd.squareform(df2), method='average')
+        
+        """mu.plot_clusterheatmap(df1, fig_save_path='reports/main_a5/sample_cluster_hm_w1.png',
+            dendrogram_ratio=(.05, .2),
+            cmap='YlOrRd',)
+        mu.plot_clusterheatmap(df1, fig_save_path='reports/main_a5/sample_cluster_hm_w2.png',
+            figsize=(12,12),
+            dendrogram_ratio=(.05, .2),
+            row_cluster=False,
+            cmap='YlOrRd')
+        mu.plot_clusterheatmap(df2, fig_save_path='reports/main_a5/sample_cluster_hm_w3.png',
+            figsize=(12,12),
+            dendrogram_ratio=(.05, .2),
+            row_cluster=False,
+            cmap='YlOrRd_r')
+        mu.plot_clusterheatmap(df2, fig_save_path='reports/main_a5/sample_cluster_hm_w4.png',
+            figsize=(12,12),
+            dendrogram_ratio=(.05, .2),
+            cmap='YlOrRd_r')"""
+        mu.plot_clusterheatmap(df1, fig_save_path='reports/main_a5/sample_cluster_hm_w5.png',
+            topic_names=topic_names,
+            figsize=(12,12),
+            dendrogram_ratio=(.05, .2),
+            cmap='YlOrRd')
+        """mu.plot_clusterheatmap(df1, fig_save_path='reports/main_a5/sample_cluster_hm_w6.png',
+            figsize=(12,12),
+            dendrogram_ratio=(.05, .2),
+            linewidths = 0.5,
+            cmap='YlOrRd')"""
+            
+    if False:
+        with open('models/main_mallet_t40a5o200_v3', 'rb') as model:
+            model = pickle.load(model)
+        df1, df2 = mu.build_cooc_matrix_df(model.model, model.nlp_data)
+    
+    if False:
+        topic_names = mu.import_topic_names('reports/main_a5/topic_names1.csv')
+        print(topic_names)
+    
+    if True:
+        dataframes = mfp.reload_dfs('reports/main_a5/data/', 5)
+
+        topics = dataframes['topics_summary']
+        topics.columns = ["Topic", "Name", "Keywords", "Document Count", "Coefficient*10^3", "R^2"] 
+        topics["Coefficient*10^3"] = topics["Coefficient*10^3"] * 1000
+        df_topic_names = pd.read_csv('reports/main_a5/topic_names_full.csv')
+        topics['Name'] = df_topic_names.iloc[:,1]
+        topics = topics.round(decimals={'Coefficient*10^3':2, 'R^2':2 })
+        
+        with pd.option_context("max_colwidth", 1000):
+            topics.to_latex('reports/main_a5/topics_summary_new.tex', index=False)

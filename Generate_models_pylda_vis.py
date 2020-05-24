@@ -282,7 +282,7 @@ if __name__ == "__main__":
         comp_time =  (time() - t)                                       
         print("Done in %0.3fs." % comp_time)
 
-    if True:
+    if False:
         data_path = 'data/external/data_cleaned.csv'
         data_column = 'title_abstract'
         print("Loading dataset for main model building...")
@@ -338,4 +338,57 @@ if __name__ == "__main__":
             save_path = "reports/v3/main_mallet_t{}a{}o{}s{}_wc_v3.png".format(
                             topic_num, models[i]['alpha'], models[i]['optimize_interval'], model_seed)
             model_utilities.create_multi_wordclouds(40, 8, model_list[i][0].model, model_list[i][0].nlp_data, num_w=20, fig_dpi=400,
+                            show=False, fig_save_path=save_path)
+    
+    if True:
+        data_path = 'data/external/data_cleaned.csv'
+        data_column = 'title_abstract'
+        print("Loading dataset for main model building...")
+        t0 = time()
+        df = pd.read_csv(data_path)
+        data = df[data_column].tolist()
+        print("done in %0.3fs." % (time() - t0))
+
+        spacy_library = 'en_core_sci_lg'
+        nlp_data = data_nl_processing_v2.NlpForLdaInput(data, spacy_lib=spacy_library, max_df=.25, bigrams=True, trigrams=True, max_tok_len=30)
+        nlp_data.start()
+
+        topic_num = 20
+        model_seed = 629740313
+        models = [{'alpha':5,'optimize_interval':200},
+                    {'alpha':25,'optimize_interval':200},
+                    {'alpha':50,'optimize_interval':200}]
+        model_list = []
+        for i in range(len(models)):
+            model = model_utilities.MalletModel(nlp_data, topics=topic_num, seed=model_seed, model_type='mallet', **models[i])
+            model.start()
+            save_path = 'models/main_mallet_t{}a{}o{}_v3'.format(topic_num, models[i]['alpha'], models[i]['optimize_interval'])
+            model.save(save_path)
+            model_list.append((model, save_path))
+
+        with open('reports/v3/main_mallet_parameters_{}T_v3.txt'.format(topic_num), 'w') as para_file:
+            file_string_list = []
+            file_string_list.append("Main Model Parameters for {} Topics \n".format(topic_num))
+            file_string_list.append("\n")
+            for i in range(len(model_list)):
+                file_string_list.append("Mallet model t{}a{}o{} Parameters: \n".format(topic_num, models[i]['alpha'], models[i]['optimize_interval']))
+                file_string_list.append("Model {}/{} generated \n".format(i+1, len(model_list)))
+                file_string_list.append("File Path: {} \n".format(model_list[i][1]))
+                file_string_list.append("{} Coherence: {} \n".format(model_list[i][0].coherence, model_list[i][0].model_raw['coherence']))
+                for key in model_list[i][0].parameters:
+                    file_string_list.append("{}: {} \n".format(key, model_list[i][0].parameters[key]))
+                file_string_list.append("\n")
+            para_file.writelines(file_string_list)
+
+        for i in range(len(model_list)):
+            save_path = "reports/v3/main_mallet_t{}a{}o{}s{}_v3.html".format(
+                            topic_num, models[i]['alpha'], models[i]['optimize_interval'], model_seed)
+            panel = pyLDAvis.gensim.prepare(model_list[i][0].model, model_list[i][0].nlp_data.gensim_lda_input(), model_list[i][0].nlp_data.get_id2word(), 
+                                        mds='tsne', sort_topics=False)
+            pyLDAvis.save_html(panel, save_path)
+
+        for i in range(len(model_list)):
+            save_path = "reports/v3/main_mallet_t{}a{}o{}s{}_wc_v3.png".format(
+                            topic_num, models[i]['alpha'], models[i]['optimize_interval'], model_seed)
+            model_utilities.create_multi_wordclouds(20, 5, model_list[i][0].model, model_list[i][0].nlp_data, num_w=20, fig_dpi=400,
                             show=False, fig_save_path=save_path)

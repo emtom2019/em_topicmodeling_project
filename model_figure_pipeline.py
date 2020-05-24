@@ -56,6 +56,11 @@ def build_dfs(output_folder_path, model, raw_text, year_list, year_res, topic_na
     df_summary = mu.build_summary_df(df_bestdoc, df_nt, df_wty, topic_names=topic_names, rel_val=True)
     df_summary.to_csv(output_folder_path + 'topics_summary.csv', index=False)
 
+    # Generate and save topic co-occurence matrix
+    df_cooc_matrix, df_cooc_n = mu.build_cooc_matrix_df(model.model, model.nlp_data)
+    df_cooc_matrix.to_csv(output_folder_path + 'topics_cooc_matrix.csv', index=True)
+    df_cooc_n.to_csv(output_folder_path + 'topics_cooc_matrix_num.csv', index=True)
+
     # Save dataframes for linear regression - These are not returned
     if topic_groups is not None:
         df_grouped, df_lr= mu.plot_topic_groups(df_wty, topic_groups, show=False, linear_reg=True)
@@ -68,7 +73,7 @@ def build_dfs(output_folder_path, model, raw_text, year_list, year_res, topic_na
         'docs/topic':df_nt, 'doc_weight/topic':df_wt, 'docs/topic/year':df_nty, 
         'doc_weight/topic/year':df_wty, 'dom_topic/doc':df_domtop, 
         'best_doc/topic':df_bestdoc, 'best_doc/topic_w_raw':df_bestdoc_raw,
-        'topics_summary':df_summary
+        'topics_summary':df_summary, 'cooc_matrix':df_cooc_matrix
         }
     return dataframe_dict
     
@@ -82,20 +87,21 @@ def reload_dfs(output_folder_path, year_res):
     df_bestdoc = pd.read_csv(output_folder_path + 'best_doc_per_topic.csv')
     df_bestdoc_raw = pd.read_csv(output_folder_path + 'best_doc_per_topic_with_raw.csv')
     df_summary = pd.read_csv(output_folder_path + 'topics_summary.csv')    
+    df_cooc_matrix = pd.read_csv(output_folder_path + 'topics_cooc_matrix.csv', index_col=0)
     dataframe_dict = {
         'docs/topic':df_nt, 'doc_weight/topic':df_wt, 'docs/topic/year':df_nty, 
         'doc_weight/topic/year':df_wty, 'dom_topic/doc':df_domtop, 
         'best_doc/topic':df_bestdoc, 'best_doc/topic_w_raw':df_bestdoc_raw,
-        'topics_summary':df_summary
+        'topics_summary':df_summary, 'cooc_matrix':df_cooc_matrix
         }
     return dataframe_dict
 
 def build_figures_all_data(output_folder_path, model, df_dict, raw_text, year_res, year_list, topic_names=None,
-                            topic_groups=None, year_start=None, year_end=None, tsne_seed=2020, **kwargs):
+                            topic_groups=None, year_start=None, year_end=None, tsne_seed=2020, pic_format='png', **kwargs):
     # Builds figures based on model and dataframe
     # Build doc token count histogram
     mu.plot_doc_token_counts(
-        nlp_data=model.nlp_data, fig_save_path=output_folder_path + 'doc_token_counts.png', show=False
+        nlp_data=model.nlp_data, fig_save_path=output_folder_path + 'doc_token_counts.{}'.format(pic_format), show=False
         )
     # Build graph of numbers of docs per year range
     columns = list(df_dict['docs/topic/year'].columns)[1:]
@@ -111,7 +117,7 @@ def build_figures_all_data(output_folder_path, model, df_dict, raw_text, year_re
             plt_param2[key] = kwargs[key]
     mu.graph(
         columns, column_totals_list, 
-        fig_save_path=output_folder_path + 'total_docs_per_{}year.png'.format(year_res),
+        fig_save_path=output_folder_path + 'total_docs_per_{}year.{}'.format(year_res, pic_format),
         **plt_param2
         )
     total_docs = 0
@@ -129,7 +135,7 @@ def build_figures_all_data(output_folder_path, model, df_dict, raw_text, year_re
         'n_topics':model.model.num_topics,
         'n_horiz':8,
         'xlabel':'Years',
-        'ylabel':'Proportion of Documents', 
+        'ylabel':'Proportion of Literature', 
         'ylabel2':"Absolute Count of Documents",
         'xtick_space':10, 
         'xmintick_space':5
@@ -139,10 +145,16 @@ def build_figures_all_data(output_folder_path, model, df_dict, raw_text, year_re
             plt_param[key] = kwargs[key]
 
     mu.plot_doc_topics_per_time(df_dict['doc_weight/topic/year'],  
-        fig_save_path=output_folder_path + 'relw_abs_docs_per_t{}y.png'.format(year_res), 
+        fig_save_path=output_folder_path + 'relw_abs_docs_per_t{}y.{}'.format(year_res, pic_format), 
         x_val=years, hide_x_val=False, topic_names=topic_names, relative_val=True,
         df_data2=df_dict['docs/topic/year'], relative_val2=False, show=False, **plt_param
         )
+    mu.plot_doc_topics_per_time(df_dict['doc_weight/topic/year'],  
+        fig_save_path=output_folder_path + 'relw_docs_per_t{}y.{}'.format(year_res, pic_format), 
+        x_val=years, hide_x_val=False, topic_names=topic_names, relative_val=True,
+        show=False, **plt_param
+        )
+
     # If topic groups is given, plot trends for groups and save df of linear regression
     if topic_groups is not None:
         plt_gparams = {
@@ -153,35 +165,43 @@ def build_figures_all_data(output_folder_path, model, df_dict, raw_text, year_re
             'xmintick_space':5
         }
         mu.plot_topic_groups(df_dict['doc_weight/topic/year'], topic_groups, x_val=years, hide_x_val=False, merge_graphs=True, 
-            fig_save_path=output_folder_path + 'topic_groups_merged{}y.png'.format(year_res), show=False, **plt_gparams)
+            fig_save_path=output_folder_path + 'topic_groups_merged{}y.{}'.format(year_res, pic_format), show=False, **plt_gparams)
         mu.plot_topic_groups(df_dict['doc_weight/topic/year'], topic_groups, x_val=years, hide_x_val=False, merge_graphs=False, 
-            fig_save_path=output_folder_path + 'topic_groups{}y.png'.format(year_res), show=False, **plt_gparams)
+            fig_save_path=output_folder_path + 'topic_groups{}y.{}'.format(year_res, pic_format), show=False, **plt_gparams)
 
     # Create word clouds
     mu.create_multi_wordclouds(plt_param['n_topics'], plt_param['n_horiz'], model.model, model.nlp_data, 
             topic_names=topic_names, show=False, title_font=14, seed=tsne_seed,
-            fig_save_path=output_folder_path + 'topic_wordclouds.png')
+            fig_save_path=output_folder_path + 'topic_wordclouds.{}'.format(pic_format))
     
     # Create t-SNE doc cluster graph
     mu.plot_tsne_doc_cluster(
         model.model, model.nlp_data, marker_size=1, min_tw=None, seed=tsne_seed, show_topics=True, 
         show=False, topic_names=topic_names, show_legend=True, 
-        fig_save_path=output_folder_path + 'tsne_doc_cluster_s{}.png'.format(tsne_seed),
+        fig_save_path=output_folder_path + 'tsne_doc_cluster_s{}.{}'.format(tsne_seed, pic_format),
         size=8
         )
+    # Create the cluster heatmap from the co-occurence matrix
+    mu.plot_clusterheatmap(df_dict['cooc_matrix'], fig_save_path=output_folder_path + 'topic_cluster_heatmap.{}'.format(pic_format),
+            topic_names=topic_names,
+            show=False,
+            figsize=(12,12),
+            dendrogram_ratio=(.05, .2),
+            cmap='YlOrRd')
 
-def build_sample_paragraph(output_folder_path, model, raw_text, doc_ids, num_topics, topic_names=None, max_chars=120, min_phi=1.0):
+def build_sample_paragraph(output_folder_path, model, raw_text, doc_ids, num_topics, topic_names=None, 
+                            max_chars=120, min_phi=1.0, pic_format='png'):
     if isinstance(doc_ids, int):
         doc_ids = [doc_ids]
     for doc_id in doc_ids:
         mu.color_doc_topics(
             model.model, raw_text[doc_id], model.nlp_data, topics=num_topics, max_chars=max_chars, 
-            incl_perc=True, fig_save_path=output_folder_path + 'doc_{}.png'.format(doc_id), 
+            incl_perc=True, fig_save_path=output_folder_path + 'doc_{}.{}'.format(doc_id, pic_format), 
             show=False, topic_names=topic_names, min_phi=min_phi
             )
 
-def build_journal_df_figs(output_folder_path, model, df, journal_column, data_column, year_column, year_res, 
-                        year_list, topic_names=None, topic_groups=None, year_start=None, year_end=None, max_journals=6, **kwargs):
+def build_journal_df_figs(output_folder_path, model, df, journal_column, data_column, year_column, year_res, year_list, 
+                        pic_format='png', topic_names=None, topic_groups=None, year_start=None, year_end=None, max_journals=6, **kwargs):
     # Breaks down the dataframe into smaller dataframes per journal
     df_dict, counts = mu.rows_per_df_grp(df, journal_column)
     # Creates a dataframe for journal, first year published, and total abstracts per journal
@@ -272,7 +292,7 @@ def build_journal_df_figs(output_folder_path, model, df, journal_column, data_co
         df_wt.to_csv(output_folder_path + 'dwt_{}.csv'.format(journal), index=False)
         # creates the plots of topic per time for all topics
         df_lr_all = mu.plot_doc_topics_per_time(df2,
-            fig_save_path=output_folder_path + 'rel_abs_docs_per_t{}y_{}.png'.format(year_res, journal), 
+            fig_save_path=output_folder_path + 'rel_abs_docs_per_t{}y_{}.{}'.format(year_res, journal, pic_format), 
             x_val=years, hide_x_val=False, topic_names=topic_names, relative_val=True,
             df_data2=df1, relative_val2=False, show=False, linear_reg=True, **plt_param
             )
@@ -287,10 +307,10 @@ def build_journal_df_figs(output_folder_path, model, df, journal_column, data_co
             'xmintick_space':5
             }
             df_grouped, df_lr = mu.plot_topic_groups(df2, topic_groups, x_val=years, hide_x_val=False, merge_graphs=True, 
-                fig_save_path=output_folder_path + 'topic_groups_merged{}y_{}.png'.format(year_res, journal), show=False, linear_reg=True, 
+                fig_save_path=output_folder_path + 'topic_groups_merged{}y_{}.{}'.format(year_res, journal, pic_format), show=False, linear_reg=True, 
                 **plt_gparams)
             mu.plot_topic_groups(df2, topic_groups, x_val=years, hide_x_val=False, merge_graphs=False, 
-                fig_save_path=output_folder_path + 'topic_groups{}y_{}.png'.format(year_res, journal), show=False, **plt_gparams)
+                fig_save_path=output_folder_path + 'topic_groups{}y_{}.{}'.format(year_res, journal, pic_format), show=False, **plt_gparams)
             df_totals = mu.plot_topic_groups(df_wt, topic_groups, show=False)
             df_grouped.to_csv(output_folder_path + 'grouped_topics_{}y_{}.csv'.format(year_res, journal), index=False)
             df_lr.to_csv(output_folder_path + 'grouped_topics_{}y_{}.csv'.format(year_res, journal), index=False)
@@ -315,11 +335,11 @@ def build_journal_df_figs(output_folder_path, model, df, journal_column, data_co
             plt_param2[key] = kwargs[key]
     # Graphs total abstract by journals over time
     mu.graph_multi(columns_list, total_counts_list, labels_list, 
-        fig_save_path=output_folder_path + 'total_docs_per_{}year.png'.format(year_res), 
+        fig_save_path=output_folder_path + 'total_docs_per_{}year.{}'.format(year_res, pic_format), 
         show=False, **plt_param2
         )
 
-def run_pipeline(model_path, data_path, data_column, year_column, journal_column, year_start, year_res, year_end=None, 
+def run_pipeline(model_path, data_path, data_column, year_column, journal_column, year_start, year_res, year_end=None, pic_format='png', 
                 main_path=None, docs=None, min_phi=1, num_topics=5, seed=2020, topic_names=None, topic_groups=None, max_journals=6):
     # Runs all of the functions and creates all of the figures and dataframes 
     if main_path is None:
@@ -342,18 +362,19 @@ def run_pipeline(model_path, data_path, data_column, year_column, journal_column
     
     with mu.Timing("Creating Figures..."):
         build_figures_all_data(path_fig, model, df_dict, raw_text, year_res, year_list, topic_groups=topic_groups,
-                            topic_names=topic_names, year_start=year_start, year_end=year_end, tsne_seed=seed)
+                            topic_names=topic_names, year_start=year_start, year_end=year_end, tsne_seed=seed, 
+                            pic_format=pic_format)
 
     with mu.Timing("Processing data for individual journals..."):
         build_journal_df_figs(path_journals, model, df, journal_column, data_column, year_column, year_res, year_list,
                         topic_names=topic_names, topic_groups=topic_groups, year_start=year_start, year_end=year_end, 
-                        max_journals=max_journals)
+                        max_journals=max_journals, pic_format=pic_format)
     
     with mu.Timing("Creating sample abstract..."):
         if docs is None:
             docs = random.randrange(len(raw_text)-1)
         build_sample_paragraph(path_fig, model, raw_text, docs, num_topics=num_topics, topic_names=topic_names, 
-                        max_chars=120, min_phi=min_phi)
+                        max_chars=120, min_phi=min_phi, pic_format=pic_format)
 
 
 if __name__ == "__main__": # Runs script only if it is directly run
@@ -374,8 +395,9 @@ if __name__ == "__main__": # Runs script only if it is directly run
             topic_groups = mu.TOPIC_GROUPS.copy()
             topic_groups.pop('Methods')
             topic_groups.pop('Miscellaneous')
+            topic_names = mu.import_topic_names('reports/main_a5/topic_names_trunc.csv')
             run_pipeline(model_path, data_path, data_column, year_column, journal_column, year_start=1980, year_res=5,
-                    docs=None, topic_names=mu.MAIN_TOPICS_V2, topic_groups=topic_groups, main_path='reports/main_a5/')
+                    docs=6545, num_topics=5, topic_names=topic_names, topic_groups=topic_groups, main_path='reports/main_a5/')
 
     if False:
         dfs = reload_dfs('reports/main_a5/data/', 5)
@@ -417,10 +439,37 @@ if __name__ == "__main__": # Runs script only if it is directly run
                         topic_names=mu.MAIN_TOPICS_V2, topic_groups=topic_groups, year_start=1980, year_end=None, 
                         max_journals=6)
 
-    if True:
+    if False:
         model_path = 'models/main_mallet_t40a5o200_v3'
         model = load_model(model_path)
         path = 'reports/main_a5/figures/'
         mu.plot_doc_token_counts(
             nlp_data=model.nlp_data, fig_save_path=path + 'doc_token_counts.png', show=False
         )
+
+    if True:
+        plt_param = {
+        'n_topics':40,
+        'n_horiz':8,
+        'xlabel':'Years',
+        'ylabel':'Proportion of Literature', 
+        'ylabel2':"Absolute Count of Documents",
+        'xtick_space':10, 
+        'xmintick_space':5
+        }
+        year_res = 5
+        years = list(range(1980, 2020, year_res))
+        pic_format = 'png'
+        topic_names = mu.import_topic_names('reports/main_a5/topic_names_trunc.csv')
+        df_dict = reload_dfs('reports/main_a5/data/', 5)
+        output_folder_path = 'reports/main_a5/figures/'
+        mu.plot_doc_topics_per_time(df_dict['doc_weight/topic/year'],  
+            fig_save_path=output_folder_path + 'relw_abs_docs_per_t{}y.{}'.format(year_res, pic_format), 
+            x_val=years, hide_x_val=False, topic_names=topic_names, relative_val=True,
+            df_data2=df_dict['docs/topic/year'], relative_val2=False, show=False, **plt_param
+            )
+        mu.plot_doc_topics_per_time(df_dict['doc_weight/topic/year'],  
+            fig_save_path=output_folder_path + 'relw_docs_per_t{}y.{}'.format(year_res, pic_format), 
+            x_val=years, hide_x_val=False, topic_names=topic_names, relative_val=True,
+            show=False, **plt_param
+            )

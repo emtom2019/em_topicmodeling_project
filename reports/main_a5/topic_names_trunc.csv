@@ -1,0 +1,41 @@
+Topic #,Truncated Name
+1,T1:St Mod/Pred
+2,T2:Trauma Img
+3,T3:St Meas/Agr
+4,T4:Case Pres/Dg
+5,T5:Chest Pain
+6,T6:Clinical Trial
+7,T7:Trauma S/O
+8,T8:Wound Care
+9,T9:Toxicology
+10,T10:Intub A/Mng
+11,T11:Lit Rev/Pub
+12,T12:Pediatrics
+13,T13:Lab Tests
+14,T14:Vitals
+15,T15:Temp Mng
+16,T16:M Veh Inj
+17,T17:Publ H/Dis
+18,T18:Health Util
+19,T19:CPR
+20,T20:Ultrasound
+21,T21:Sedation
+22,T22:Chart R/EMR
+23,T23:CT Imaging
+24,T24:Risk Fact
+25,T25:IV Place
+26,T26:Disposition
+27,T27:Med Ed/Sim
+28,T28:IC H/Stroke
+29,T29:Pain/Treat
+30,T30:Sepsis
+31,T31:Res Train
+32,T32:Op Metrics
+33,T33:Acad Res
+34,T34:Card Arrest
+35,T35:Survey Meth
+36,T36:Prehosp Ca
+37,T37:Mental H/SA
+38,T38:Lab R/B Sci
+39,T39:Treatment
+40,T40:Infection

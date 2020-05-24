@@ -4,6 +4,8 @@ import os, sys
 
 import numpy as np
 from scipy.stats.mstats import gmean
+import scipy.spatial.distance as ssd
+import scipy.cluster.hierarchy as hc
 import pandas as pd
 import pickle
 import gensim, data_nl_processing, data_nl_processing_v2
@@ -27,6 +29,7 @@ from matplotlib import transforms
 from mpl_toolkits.mplot3d import Axes3D
 from wordcloud import WordCloud
 from cycler import cycler
+import seaborn as sns
 
 TOPIC_NAMES_T40A25O200S524251838_FULL = {
     1:"T1:Triage", 2:"T2:CT Imaging", 3:"T3:Case Presentation", 4:"T4:Outcomes", 5:"T5:Pediatrics", 
@@ -64,6 +67,21 @@ TOPIC_NAMES_T40A25O200S524251838 = {1:"T1:Triage", 2:"T2:CT Imaging", 3:"T3:Case
         27:"T27:Vitals", 28:"T28:Intubation", 29:"T29:Ultrasound", 30:"T30:BP Measure", 31:"T31:CPR", 
         32:"T32:Med Ed", 33:"T33:Card Arrest", 34:"T34:Statistics 2", 35:"T35:Med Research", 
         36:"T36:Pain", 37:"T37:Blood Tests", 38:"T38:Modeling", 39:"T39:Procedures", 40:"T40:Trauma"}
+
+TOPIC_NAMES_T40A5O200S629740313 = {
+    1:"T1:Statistical Modeling and Prediction", 2:"T2:Trauma Imaging", 3:"T3:Statistics: Measurement and Agreement", 
+    4:"T4:Case Presentation and Diagnosis", 5:"T5:Chest Pain", 
+    6:"T6:Clinical trial", 7:"T7:Trauma Severity and Outcomes", 8:"T8:Wound Care", 
+    9:"T9:Toxicology", 10:"T10:Intubation and Airway Management", 11:"T11:Medical Publication", 12:"T12:Pediatrics", 
+    13:"T13:Laboratory Tests", 14:"T14:Vitals", 15:"T15:Temperature Management", 
+    16:"T16:Motor Vehicle Collision Related Injury", 17:"T17:Public Health and Disaster Medicine", 18:"T18:Health Utilization", 
+    19:"T19:CPR", 20:"T20:Ultrasound", 21:"T21:Sedation", 
+    22:"T22:Chart Review and Electronic Medical Records", 23:"T23:CT Imaging", 24:"T24:Risk Factor Analysis", 25:"T25:IV Placement", 
+    26:"T26:Disposition", 27:"T27:Medical Education Assessment and Simulation", 28:"T28:Intracranial Hemorrhage and Stroke", 
+    29:"T29:Pain and Pain Management", 30:"T30:Sepsis", 31:"T31:Residency Training", 32:"T32:Operational Metrics", 
+    33:"T33:Academic Research", 34:"T34:Cardiac Arrest", 35:"T35:Survey Methodology", 36:"T36:Prehospital Care", 
+    37:"T37:Mental Health and Substance Abuse", 38:"T38:Lab Research and Basic Science", 39:"T39:Treatment", 40:"T40:Infection"
+    }
 
 TOPIC_NAMES_T40A5O200S629740313_TRUNC = {
     1:"T1:St Mod/Pred", 2:"T2:Fracture", 3:"T3:Statistics", 4:"T4:Case Pres", 5:"T5:ACS", 
@@ -935,7 +953,7 @@ def plot_doc_topics_per_time(df_data, n_topics, n_horiz=5, fig_dpi=150, ylabel=N
         fig.text(0.5, 0, xlabel, ha='center', va='top', fontsize=14)
     if ylabel is not None:
         fig.text(0, 0.5, ylabel, ha='right', va='center', fontsize=14, rotation=90)
-    if ylabel2 is not None:
+    if ylabel2 is not None and plot2 and diff_axis:
         fig.text(1, 0.5, ylabel2, ha='left', va='center', fontsize=14, rotation=90)
 
     if fig_save_path is not None:
@@ -1525,6 +1543,123 @@ def build_summary_df(df_bestdoc, df_nt, df_ty, topic_names=None, rel_val=True):
     df_nt_kw_lr = pd.DataFrame(topic_kw_counts_dict)
     df_nt_kw_lr = df_nt_kw_lr[columns_names]
     return df_nt_kw_lr
+
+def build_cooc_matrix_df(model, nlp_data, doc_list=None, corpus=None, min_tw=None):
+    # This creates 2 co-occurence matrix dataframes
+    # The first returned df is by topic weights
+    # The second df ignores topic weights and a document has a topic if its weight is greater than min_tw or 0.1
+    if corpus is None:
+        if doc_list is None:
+            corpus = nlp_data.gensim_lda_input()
+        else:
+            corpus = nlp_data.process_new_corpus(doc_list)['gensim']
+    n_topics = model.num_topics
+    topic_weights= {}
+    for i in range(1, n_topics+ 1):
+        topic_weights[i] = []
+    for i, row_list in enumerate(model.get_document_topics(corpus, minimum_probability=0.001)):
+        temp_dict = {t+1:w for t, w in row_list}
+        for topic in range(1, n_topics+1):
+            if topic in temp_dict:
+                topic_weights[topic].append(temp_dict[topic])
+            else:
+                topic_weights[topic].append(0)
+    
+    arr = pd.DataFrame(topic_weights).fillna(0)
+    
+    if min_tw is not None:
+        arr_n = arr[arr >= min_tw].fillna(0)
+    else:
+        arr_n = arr[arr >= 0.1].fillna(0) 
+    arr_n[arr_n > 0] = 1
+
+    df_cooc_w = arr.T.dot(arr)
+    df_cooc_n = arr_n.T.dot(arr_n)
+    np.fill_diagonal(df_cooc_w.values, 0)
+    np.fill_diagonal(df_cooc_n.values, 0)
+
+    return df_cooc_w, df_cooc_n
+
+def plot_heatmap(df_matrix, topic_names=None, show=True, fig_save_path=None):
+    #plots a heatmap of the passed co-occurence matrix
+    #fig, ax = plt.subplots(figsize=(8,8))
+    #plt.figure(figsize=(8,8), dpi=300, facecolor='w')
+    sns.set(font_scale=0.8)
+    sns.heatmap(df_matrix, linewidths = 0.5, square=True, cmap='YlOrRd', xticklabels=True, yticklabels=True)
+    plt.tight_layout()
+
+    # This saves and/or shows the plot. Note: Saved file looke better than the drawn plot
+    length = len(df_matrix.index)
+    plt.ylim(length, 0)
+    plt.xlim(0, length) 
+
+    #ax.set_ylim(length, 0)
+    #ax.set_xlim(0, length) 
+    if fig_save_path is not None:
+        plt.savefig(fig_save_path, bbox_inches='tight', dpi=300)
+    if show:
+        plt.show()
+    plt.close()    
+
+def plot_clusterheatmap(df_matrix, topic_names=None, show=True, fig_save_path=None, **kwargs):
+    #plots a cluster heatmap of the passed co-occurence matrix
+
+    df1 = df_matrix.copy()
+    # This relabels the columns and rows if topic names is passed
+    if topic_names is not None:
+        df1.index = [topic_names[topic] for topic in df1.index]
+        df1.columns = [topic_names[int(topic)] for topic in df1.columns]
+    # This if for calculating the linkage manually outside of the cluster method because
+    # the co-occurence matrix is an uncondensed distance matrix. To properly calculate linkage
+    # the matrix must be reprocessed with values closer to 0 indicating stronger association.
+    # To accomplish this the max value in the matrix is used as the new 0 and all other values are
+    # max value - matrix value. The diagnol is reassigned to 0, and then the matrix is transformed
+    # into a condensed distance matrix as input to the linkage method and the result
+    # is used for the clustering method. 
+    df2 = df_matrix.values.max() - df_matrix
+    np.fill_diagonal(df2.values, 0)
+    df3 = hc.linkage(ssd.squareform(df2), method='average')
+    sns.set(font_scale=0.9)
+    # This makes the cluster graph and assigns a reference to it as sns_grid
+    sns_grid = sns.clustermap(df1, 
+        row_linkage = df3,
+        col_linkage = df3,
+        **kwargs)
+    plt.tight_layout()
+    #sns_grid.savefig("reports/main_a5/testing.png")
+    
+    # This adjusts the rotation and positions of the x and y tick labels
+    sns_grid.ax_heatmap.set_yticklabels(sns_grid.ax_heatmap.get_yticklabels(), rotation=0)
+    if topic_names is not None:
+        sns_grid.ax_heatmap.set_xticklabels(sns_grid.ax_heatmap.get_xticklabels(), rotation=-60, ha='left')
+        xd = -10/72
+        offset = mpl.transforms.ScaledTranslation(xd, 0, sns_grid.fig.dpi_scale_trans)
+        for label in sns_grid.ax_heatmap.get_xticklabels():
+            label.set_transform(label.get_transform() + offset)
+    # This is to ensure that the heatmap is of the appropriate size.
+    # There were issues where part of the heatmap was cutoff
+    length = len(df1.index)
+    sns_grid.ax_heatmap.set_ylim(length, 0)
+    sns_grid.ax_heatmap.set_xlim(0, length) 
+    # This saves and/or shows the plot. 
+    if fig_save_path is not None:
+        plt.savefig(fig_save_path, bbox_inches='tight', dpi=300)
+    if show:
+        plt.show()
+    plt.close()    
+
+def import_topic_names(file_path_name):
+    # imports topic names from a spreadsheet with the first columns containing topic numbers and 
+    # the second containing topic names
+    if file_path_name[-3:] == 'csv':
+        df = pd.read_csv(file_path_name)
+    elif file_path_name[-3:] in ['xls','lsx', 'lsm', 'lsb', 'odf']:
+        df = pd.read_excel(file_path_name)
+    else:
+        raise NameError('Unsupported file format, please provide csv or excel file')
+    
+    topic_names_dict = dict(zip(df.iloc[:,0].values, df.iloc[:,1].values))
+    return topic_names_dict
 
 class MalletModel:
     def __init__(self, nlp_data, topics=20, seed=0, topn=20, coherence='c_v', model_type='mallet',
