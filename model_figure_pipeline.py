@@ -379,7 +379,7 @@ def run_pipeline(model_path, data_path, data_column, year_column, journal_column
 
 if __name__ == "__main__": # Runs script only if it is directly run
     
-    model_path = 'models/main_mallet_t40a25o200_v3'
+    model_path = 'models/main_mallet_t40a5o200_v3'
     data_path = 'data/external/data_cleaned.csv'
     data_column = 'title_abstract'
     year_column = 'year'
