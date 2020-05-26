@@ -1,0 +1,42 @@
+,Topic,Name,Keywords,Document Count,,
+0,1,St Mod/Pred,"score, ci, predict, risk, triage, model, rule, sensitivity, decision, criterion",464,2.260327358,FALSE
+1,2,Fracture,"injury, fracture, trauma, chest, abdominal, radiographs, cervical_spine, radiography, blunt, radiograph",532,2.591582229,FALSE
+2,3,Statistics,"measure, measurement, agreement, estimate, assessment, correlation, kappa, assess, weight, accuracy",327,1.59294622,Unpopular
+3,4,Case Pres,"diagnosis, case, symptom, acute, disease, presentation, common, pain, review, treatment",879,4.281956352,Popular
+4,5,ACS,"chest, pain, acute, cardiac, ecg, myocardial_infarction, risk, troponin, acs, stemi",688,3.351519875,Popular
+5,6,Clin trial,"intervention, control, follow, trial, month, randomize, outcome, receive, day, primary",445,2.16777085,FALSE
+6,7,Trauma,"trauma, injury, center, score, head, level, severity, blunt, outcome, mortality",417,2.031371785,Unpopular
+7,8,Wound Care,"wound, burn, laceration, skin, infection, eye, suture, day, foreign_body, anesthesia",403,1.963172253,Unpopular
+8,9,Drugs/Tox,"drug, exposure, case, overdose, poisoning, report, ingestion, poison, cocaine, toxicity",552,2.689010133,FALSE
+9,10,Intubation,"intubation, airway, attempt, success, technique, perform, intubate, endotracheal_intubation, device, difficult",518,2.523382697,FALSE
+10,11,Med Pub,"review, eps, medicine, article, report, ep, quality, publish, search, journal",260,1.266562744,Unpopular
+11,12,Pediatrics,"child, pediatric, age, young, month, infant, parent, ped, aged, adult",95,0.462782541,Unpopular
+12,13,Lab Tests,"level, serum, blood, concentration, sample, acute, laboratory, glucose, mg_dl, plasma",504,2.455183164,FALSE
+13,14,BP/O2Sat,"pressure, blood, arterial, mm_hg, change, oxygen, respiratory, increase, measurement, gas",499,2.430826189,FALSE
+14,15,Body Temp,"degree, temperature, fluid, hypothermia, water, ml, body, cooling, air, heat",277,1.349376461,Unpopular
+15,16,Injury,"injury, related, victim, age, crash, death, case, driver, report, male",565,2.75233827,FALSE
+16,17,Publ H/Dis,"cost, health, system, service, disaster, event, provide, public, facility, model",571,2.781566641,FALSE
+17,18,Health Util,"visit, increase, ed, utilization, health, population, prescription, national, related, number",747,3.63893219,Popular
+18,19,CPR,"compression, cpr, chest, device, perform, minute, ventilation, technique, hand, standard",356,1.73421668,Unpopular
+19,20,Ultrasound,"ultrasound, ci, appendicitis, diagnosis, diagnostic, perform, positive, test, pe, accuracy",637,3.103078722,Popular
+20,21,Sedation,"sedation, ketamine, receive, midazolam, adverse_event, propofol, procedure, minute, dose, procedural_sedation",387,1.88522993,Unpopular
+21,22,Chart R/EMR,"error, medication, record, system, implementation, review, intervention, order, guideline, period",477,2.323655495,FALSE
+22,23,Radiology,"ct, head, image, ct_scan, compute_tomography, imaging, finding, undergo, contrast, mri",345,1.680631333,Unpopular
+23,24,Risk Fact,"ci, associate, factor, age, risk, confidence_interval, outcome, odd_ratio, association, adjust",315,1.534489478,Unpopular
+24,25,IV Place,"ultrasound, placement, catheter, technique, procedure, access, guide, attempt, iv, perform",430,2.094699922,FALSE
+25,26,Disposition,"admission, discharge, day, admit, outcome, hospitalization, inpatient, hour, return, visit",498,2.425954793,FALSE
+26,27,Med Ed,"resident, student, training, medicine, score, skill, performance, simulation, assessment, test",638,3.107950117,Popular
+27,28,Stroke/Bleed,"stroke, bleeding, acute, ischemic_stroke, pregnancy, ectopic_pregnancy, risk, treatment, outcome, receive",267,1.30066251,Unpopular
+28,29,Pain,"pain, score, acute, receive, treatment, difference, minute, asthma, analgesic, opioid",800,3.897116134,Popular
+29,30,Outcomes,"mortality, sepsis, day, lactate, admission, outcome, shock, score, early, severe",430,2.094699922,FALSE
+30,31,Res Train,"program, medicine, residency, resident, survey, training, academic, report, practice, faculty",601,2.927708496,FALSE
+31,32,Op Metrics,"minute, hour, triage, increase, median, period, day, delay, length_stay, decrease",634,3.088464536,Popular
+32,33,Acad Res,"research, medicine, base, provide, develop, health, process, practice, identify, development",1198,5.835931411,Popular
+33,34,Card Arrest,"cardiac_arrest, survival, resuscitation, cpr, outcome, discharge, defibrillation, cardiac, ventricular_fibrillation, arrest",554,2.698752923,FALSE
+34,35,Survey Meth,"survey, report, provider, satisfaction, health, participant, respondent, experience, response, question",678,3.302805924,Popular
+35,36,Prehosp Ca,"ems, transport, prehospital, service, paramedic, ambulance, system, call, response, scene",494,2.406469213,FALSE
+36,37,Mental H/SA,"alcohol, screen, test, hiv, screening, risk, psychiatric, testing, positive, prevalence",458,2.231098987,FALSE
+37,38,Lab/B Sci,"animal, minute, model, effect, epinephrine, rat, control, increase, hour, mg_kg",662,3.224863601,Popular
+38,39,Treatment,"treatment, administration, dose, receive, hour, therapy, iv, intravenous, administer, oral",421,2.050857366,FALSE
+39,40,Infection,"antibiotic, infection, culture, positive, blood, treatment, pneumonia, influenza, test, bacteremia",505,2.46005456,FALSE
+,,,,20528,0.467495563,

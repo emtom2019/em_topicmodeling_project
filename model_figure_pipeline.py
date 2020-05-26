@@ -344,7 +344,7 @@ def run_pipeline(model_path, data_path, data_column, year_column, journal_column
     # Runs all of the functions and creates all of the figures and dataframes 
     if main_path is None:
         main_path = 'reports/main/'
-    path_df = main_path + 'data/'
+    path_df = main_path + 'data_csv/'
     path_fig = main_path + 'figures/'
     path_journals = main_path + 'journals/'
     paths = [path_df, path_fig, path_journals]
@@ -400,7 +400,7 @@ if __name__ == "__main__": # Runs script only if it is directly run
                     docs=6545, num_topics=5, topic_names=topic_names, topic_groups=topic_groups, main_path='reports/main_a5/')
 
     if False:
-        dfs = reload_dfs('reports/main_a5/data/', 5)
+        dfs = reload_dfs('reports/main_a5/data_csv/', 5)
         topic_groups = mu.TOPIC_GROUPS.copy()
         topic_groups.pop('Methods')
         topic_groups.pop('Miscellaneous')
@@ -419,13 +419,13 @@ if __name__ == "__main__": # Runs script only if it is directly run
         df_grouped, df_lr= mu.plot_topic_groups(dfs['doc_weight/topic/year'], topic_groups, x_val=years, hide_x_val=False, merge_graphs=False, 
             fig_save_path='reports/main_a5/figures/all_groups.png', show=False, linear_reg=True, **plt_param)
         df_totals = mu.plot_topic_groups(dfs['doc_weight/topic'], topic_groups, show=False)
-        #df_totals.to_csv('reports/main_a5/data/total_groups.csv', index=False)
-        df_grouped.to_csv('reports/main_a5/data/groups_time.csv', index=False)
-        df_lr_all.to_csv('reports/main_a5/data/doc_weight_time_lr.csv', index=False)
-        df_lr.to_csv('reports/main_a5/data/groups_time_lr.csv', index=False)
+        #df_totals.to_csv('reports/main_a5/data_csv/total_groups.csv', index=False)
+        df_grouped.to_csv('reports/main_a5/data_csv/groups_time.csv', index=False)
+        df_lr_all.to_csv('reports/main_a5/data_csv/doc_weight_time_lr.csv', index=False)
+        df_lr.to_csv('reports/main_a5/data_csv/groups_time_lr.csv', index=False)
     if False:
         main_path='reports/main_a5/'
-        df_path = main_path + 'data/'
+        df_path = main_path + 'data_csv/'
         j_path = main_path + 'journals/'
         topic_groups = mu.TOPIC_GROUPS.copy()
         topic_groups.pop('Methods')
@@ -461,7 +461,7 @@ if __name__ == "__main__": # Runs script only if it is directly run
         years = list(range(1980, 2020, year_res))
         pic_format = 'png'
         topic_names = mu.import_topic_names('reports/main_a5/topic_names_trunc.csv')
-        df_dict = reload_dfs('reports/main_a5/data/', 5)
+        df_dict = reload_dfs('reports/main_a5/data_csv/', 5)
         output_folder_path = 'reports/main_a5/figures/'
         mu.plot_doc_topics_per_time(df_dict['doc_weight/topic/year'],  
             fig_save_path=output_folder_path + 'relw_abs_docs_per_t{}y.{}'.format(year_res, pic_format), 

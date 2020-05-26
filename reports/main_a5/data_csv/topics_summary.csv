@@ -1,0 +1,41 @@
+Topic,Name,Keywords,Document Count,Coefficient,R^2
+1,St Mod/Pred,"score, ci, predict, risk, triage, model, rule, sensitivity, decision, criterion",464,0.003568522314881093,0.8489882686705218
+2,Trauma Img,"injury, fracture, trauma, chest, abdominal, radiographs, cervical_spine, radiography, blunt, radiograph",532,-0.005354992692541815,0.8095955151165036
+3,St Meas/Agr,"measure, measurement, agreement, estimate, assessment, correlation, kappa, assess, weight, accuracy",327,0.0014038926411325595,0.40539727669469433
+4,Case Pres/Dg,"diagnosis, case, symptom, acute, disease, presentation, common, pain, review, treatment",879,-0.0030131895252340332,0.3652138034230339
+5,Chest Pain,"chest, pain, acute, cardiac, ecg, myocardial_infarction, risk, troponin, acs, stemi",688,0.0022567980457145653,0.3837858873980148
+6,Clinical Trial,"intervention, control, follow, trial, month, randomize, outcome, receive, day, primary",445,0.0027422161492761986,0.7057368767599693
+7,Trauma S/O,"trauma, injury, center, score, head, level, severity, blunt, outcome, mortality",417,-0.001177022422886118,0.5965036996825122
+8,Wound Care,"wound, burn, laceration, skin, infection, eye, suture, day, foreign_body, anesthesia",403,-0.003842479063194958,0.6081462574644962
+9,Toxicology,"drug, exposure, case, overdose, poisoning, report, ingestion, poison, cocaine, toxicity",552,-0.001629745402672645,0.7030003605435914
+10,Intub A/Mng,"intubation, airway, attempt, success, technique, perform, intubate, endotracheal_intubation, device, difficult",518,-0.0005409555065260845,0.2388358092412327
+11,Lit Rev/Pub,"review, eps, medicine, article, report, ep, quality, publish, search, journal",260,0.0012470435921249352,0.471802279994451
+12,Pediatrics,"child, pediatric, age, young, month, infant, parent, ped, aged, adult",95,0.0004223392537745216,0.24134558608426016
+13,Lab Tests,"level, serum, blood, concentration, sample, acute, laboratory, glucose, mg_dl, plasma",504,-0.0010964448670800016,0.21465141484648131
+14,Vitals,"pressure, blood, arterial, mm_hg, change, oxygen, respiratory, increase, measurement, gas",499,-0.006141364700713541,0.8261889170851467
+15,Temp Mng,"degree, temperature, fluid, hypothermia, water, ml, body, cooling, air, heat",277,-0.0038187502492939293,0.8044439441803567
+16,M Veh Inj,"injury, related, victim, age, crash, death, case, driver, report, male",565,-0.0005304778178366424,0.03595965145729041
+17,Publ H/Dis,"cost, health, system, service, disaster, event, provide, public, facility, model",571,-0.002712888318634942,0.6466045857021031
+18,Health Util,"visit, increase, ed, utilization, health, population, prescription, national, related, number",747,0.005627655793706991,0.9390169781496331
+19,CPR,"compression, cpr, chest, device, perform, minute, ventilation, technique, hand, standard",356,-0.002174650129800655,0.34776151095074126
+20,Ultrasound,"ultrasound, ci, appendicitis, diagnosis, diagnostic, perform, positive, test, pe, accuracy",637,0.004329245547739412,0.8895474965395668
+21,Sedation,"sedation, ketamine, receive, midazolam, adverse_event, propofol, procedure, minute, dose, procedural_sedation",387,0.0015227553660528263,0.5200599602411351
+22,Chart R/EMR,"error, medication, record, system, implementation, review, intervention, order, guideline, period",477,0.002320739315410661,0.8728492555722596
+23,CT Imaging,"ct, head, image, ct_scan, compute_tomography, imaging, finding, undergo, contrast, mri",345,0.002383787773070071,0.9480329540436204
+24,Risk Fact,"ci, associate, factor, age, risk, confidence_interval, outcome, odd_ratio, association, adjust",315,0.008252909414714711,0.953393443624099
+25,IV Place,"ultrasound, placement, catheter, technique, procedure, access, guide, attempt, iv, perform",430,-0.0011080879745058454,0.13448702459541972
+26,Disposition,"admission, discharge, day, admit, outcome, hospitalization, inpatient, hour, return, visit",498,0.0037625080873261918,0.9353372166954003
+27,Med Ed/Sim,"resident, student, training, medicine, score, skill, performance, simulation, assessment, test",638,0.001596751403981907,0.6584319946729356
+28,IC H/Stroke,"stroke, bleeding, acute, ischemic_stroke, pregnancy, ectopic_pregnancy, risk, treatment, outcome, receive",267,0.0017641757303651284,0.8986054237844435
+29,Pain/Treat,"pain, score, acute, receive, treatment, difference, minute, asthma, analgesic, opioid",800,0.0024370250103804628,0.21431729128656518
+30,Sepsis,"mortality, sepsis, day, lactate, admission, outcome, shock, score, early, severe",430,0.004176583841505621,0.7067750908026144
+31,Res Train,"program, medicine, residency, resident, survey, training, academic, report, practice, faculty",601,0.0010133197140822648,0.11444248801896384
+32,Op Metrics,"minute, hour, triage, increase, median, period, day, delay, length_stay, decrease",634,0.004183413888785191,0.7867851569952595
+33,Acad Res,"research, medicine, base, provide, develop, health, process, practice, identify, development",1198,0.002725209200032284,0.41546747751603696
+34,Card Arrest,"cardiac_arrest, survival, resuscitation, cpr, outcome, discharge, defibrillation, cardiac, ventricular_fibrillation, arrest",554,-0.0062360241383304735,0.7134326713760238
+35,Survey Meth,"survey, report, provider, satisfaction, health, participant, respondent, experience, response, question",678,0.0019441612144491804,0.29819580372070653
+36,Prehosp Ca,"ems, transport, prehospital, service, paramedic, ambulance, system, call, response, scene",494,-0.004736179732605264,0.7602606911422155
+37,Mental H/SA,"alcohol, screen, test, hiv, screening, risk, psychiatric, testing, positive, prevalence",458,0.0010440343953509513,0.20693383886627836
+38,Lab R/B Sci,"animal, minute, model, effect, epinephrine, rat, control, increase, hour, mg_kg",662,-0.011231807630694686,0.8921945961841523
+39,Treatment,"treatment, administration, dose, receive, hour, therapy, iv, intravenous, administer, oral",421,-0.005222952917088013,0.708961622231712
+40,Infection,"antibiotic, infection, culture, positive, blood, treatment, pneumonia, influenza, test, bacteremia",505,-0.0001570746042181294,0.008447522861149692
