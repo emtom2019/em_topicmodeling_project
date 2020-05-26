@@ -27,7 +27,8 @@ Project Organization
     │
     ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
     │
-    ├── reports            <- Generated analysis. V3 contains the results published
+    ├── reports            <- Generated analysis. \V3 contains the final set of model parameters. 
+    │   │                     \main_a5 contains the published results
     │   └── figures        <- Generated graphics and figures to be used in reporting
     │
     ├── requirements_testenv.txt   <- The requirements file for reproducing the analysis environment, e.g.
