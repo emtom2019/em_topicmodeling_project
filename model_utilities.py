@@ -1931,16 +1931,16 @@ if __name__ == "__main__": # Code only runs if this file is run directly. This i
     if False: # Word cloud for a single topic
         with open('models/main_mallet_t40a50o0', 'rb') as model:
             mallet_model = pickle.load(model)
-        creat_wordcloud(1, mallet_model.model, mallet_model.nlp_data, num_w=20, 
+        create_wordcloud(1, mallet_model.model, mallet_model.nlp_data, num_w=20, 
                             fig_save_path='reports/figures/testing_createwordsclouds.png')
     
     if False: # Wordclouds for multiple topics
         with open('models/main_mallet_t40a25o200', 'rb') as model:
             mallet_model = pickle.load(model)
-        creat_multi_wordclouds([33, 40], 1, mallet_model.model, mallet_model.nlp_data, num_w=20, fig_dpi=400, custom_titles=MAIN_TOPICS_TRUNC,
+        create_multi_wordclouds([33, 40], 1, mallet_model.model, mallet_model.nlp_data, num_w=20, fig_dpi=400, custom_titles=MAIN_TOPICS_TRUNC,
                             show=False, fig_save_path='reports/figures/testing_createmultiwordsclouds_t33_40.png', title_font=14)
 
-        creat_multi_wordclouds(1, 1, mallet_model.model, mallet_model.nlp_data, num_w=20, fig_dpi=400, custom_titles=MAIN_TOPICS_TRUNC,
+        create_multi_wordclouds(1, 1, mallet_model.model, mallet_model.nlp_data, num_w=20, fig_dpi=400, custom_titles=MAIN_TOPICS_TRUNC,
                             show=False, fig_save_path='reports/figures/testing_createmultiwordsclouds_1_new.png', title_font=14)
 
     if False: # color doc with topics

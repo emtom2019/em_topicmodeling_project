@@ -1,0 +1,41 @@
+Dominant Topic,Topic Name,Topic Keywords,Document Count
+1,Triage,"triage, assessment, agreement, nurse, estimate, level, weight, kappa, accuracy, assess",268
+2,CT Imaging,"ct, abdominal, appendicitis, head, compute_tomography, ct_scan, image, diagnostic, undergo, imaging",521
+3,Case Presentation,"case, diagnosis, symptom, acute, disease, presentation, common, history, condition, report",887
+4,Outcomes,"mortality, admission, sepsis, outcome, death, day, severe, early, unit, intensive",446
+5,Pediatrics,"child, pediatric, asthma, age, young, parent, month, acute, infant, adult",171
+6,Survey Methodology,"survey, report, provider, satisfaction, participant, response, respondent, question, practice, regard",700
+7,Drugs/Toxicology,"drug, overdose, exposure, poisoning, case, ingestion, hour, poison, toxicity, cocaine",651
+8,Mental Health/Substance Abuse,"alcohol, report, psychiatric, screen, related, victim, violence, risk, abuse, depression",604
+9,Sedatives,"medication, opioid, sedation, prescription, receive, ketamine, drug, dose, adverse_event, administration",452
+10,Infection,"antibiotic, infection, culture, blood, pneumonia, positive, abscess, bacteremia, fever, therapy",402
+11,Residency,"medicine, program, resident, residency, training, academic, faculty, survey, train, specialty",647
+12,Lab/Basic Science Research,"minute, animal, model, epinephrine, effect, control, rat, infusion, dose, hour",786
+13,Prehospital Care,"ems, transport, prehospital, service, paramedic, ambulance, system, call, scene, response",413
+14,Trauma Care,"center, transfer, receive, trauma, require, major, review, complication, bleeding, retrospective",328
+15,Chart Review/Electronic Record,"review, record, error, report, case, identify, chart, information, electronic, system",405
+16,Study Protocol/Methodology,"intervention, control, change, increase, decrease, month, effect, period, improve, implementation",340
+17,Operations/Outcomes,"discharge, day, follow, admission, visit, outcome, return, admit, month, home",457
+18,Public Health/Disaster Response,"health, system, event, public, staff, disaster, service, provide, response, country",568
+19,Stroke Management,"treatment, cost, management, stroke, guideline, acute, therapy, treat, strategy, risk",283
+20,Statistics-Test Characteristics,"ci, sensitivity, rule, criterion, risk, identify, confidence_interval, decision, low, specificity",427
+21,Screening Measures in ED,"test, testing, hiv, screen, positive, laboratory, screening, rapid, risk, woman",382
+22,Operation Metrics,"hour, minute, median, length_stay, los, day, iqr, min, delay, increase",586
+23,Health Care Utilization,"visit, increase, ed, health, utilization, population, national, related, cost, number",813
+24,IV Placement,"placement, ultrasound, iv, catheter, guide, access, attempt, procedure, needle, technique",430
+25,Wound Care,"wound, burn, laceration, skin, infection, suture, eye, foreign_body, anesthesia, day",364
+26,Chest Pain,"chest, pain, cardiac, acute, ecg, myocardial_infarction, risk, troponin, acs, stemi",646
+27,Study Subject Parameters,"degree, subject, temperature, volunteer, mm, measurement, measure, cm, fluid, difference",340
+28,Intubation,"intubation, airway, attempt, success, intubate, perform, endotracheal_intubation, device, difficult, management",498
+29,Ultrasound,"ultrasound, perform, image, pe, examination, diagnosis, chest, bedside, ultrasonography, diagnostic",650
+30,Blood Pressure,"pressure, blood, arterial, mm_hg, measurement, gas, respiratory, measure, change, heart",513
+31,CPR,"compression, cpr, chest, ventilation, perform, minute, device, depth, cc, hand",311
+32,Resident Training,"student, resident, training, skill, performance, simulation, medicine, assessment, knowledge, train",579
+33,Cardiac Arrest,"cardiac_arrest, survival, resuscitation, outcome, cpr, cardiac, arrest, discharge, defibrillation, ventricular_fibrillation",533
+34,Risk Factors,"ci, associate, age, factor, risk, confidence_interval, association, odd_ratio, increase, adjust",443
+35,Academic Research,"research, medicine, process, base, identify, develop, practice, development, article, quality",1119
+36,Pain,"pain, receive, difference, treatment, trial, score, minute, randomize, placebo, acute",832
+37,Lab Tests,"level, serum, blood, acute, concentration, glucose, mg_dl, sample, lactate, significantly",520
+38,Statistical Models/Prediction,"score, model, predict, measure, variable, scale, performance, point, correlation, correlate",333
+39,Procedures,"standard, technique, require, procedure, provide, application, reduction, rapid, device, setting",288
+40,Injury,"injury, trauma, fracture, head, blunt, center, mechanism, cervical_spine, severity, age",592
