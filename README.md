@@ -1,6 +1,9 @@
 topic modeling project
 ==============================
 
+This repository holds the code, data and results of our emergency medicine topic modeling study. 
+
+For step by step instructions on how to use the code and replicate this study, please go to https://github.com/emtom2019/topic-modeling-biomed-publications
 
 
 Project Organization
